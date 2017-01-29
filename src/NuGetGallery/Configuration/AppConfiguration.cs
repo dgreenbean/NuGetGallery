@@ -215,5 +215,30 @@ namespace NuGetGallery.Configuration
         /// Gets/sets a bool that indicates if the OData requests will be filtered.
         /// </summary>
         public bool IsODataFilterEnabled { get; set; }
+
+        /// <summary>
+        /// Defines the region when AWS S3 storage is used.
+        /// </summary>
+        public string S3Region { get; set; }
+
+        /// <summary>
+        /// Defines the bucket when AWS S3 storage is used.
+        /// </summary>
+        public string S3Bucket { get; set; }
+
+        /// <summary>
+        /// Defines the prefix for all object names when AWS S3 storage is used.
+        /// </summary>
+        public string S3Prefix { get; set; }
+
+        /// <summary>
+        /// Defines the access key ID when AWS S3 storage is used.
+        /// </summary>
+        public string AwsAccessKeyId { get; set; }
+
+        /// <summary>
+        /// Defines the secret access key when AWS S3 storage is used.
+        /// </summary>
+        public string AwsSecretAccessKey { get; set; }
     }
 }

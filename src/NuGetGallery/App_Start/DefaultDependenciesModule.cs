@@ -262,6 +262,9 @@ namespace NuGetGallery
                 case StorageType.AzureStorage:
                     ConfigureForAzureStorage(builder, configuration);
                     break;
+                case StorageType.S3Storage:
+                    ConfigureForS3Storage(builder, configuration);
+                    break;
             }
 
             builder.RegisterType<FileSystemService>()
@@ -434,6 +437,29 @@ namespace NuGetGallery
             var localIp = AuditActor.GetLocalIP().Result;
 
             builder.RegisterInstance(new CloudAuditingService(instanceId, localIp, configuration.Current.AzureStorageConnectionString, CloudAuditingService.GetAspNetOnBehalfOf))
+                .AsSelf()
+                .As<AuditingService>()
+                .SingleInstance();
+        }
+
+        private static void ConfigureForS3Storage(ContainerBuilder builder, IGalleryConfigurationService configuration)
+        {
+            builder.RegisterType<S3FileStorageService>()
+                .AsSelf()
+                .As<IFileStorageService>()
+                .SingleInstance();
+
+            builder.RegisterInstance(NullReportService.Instance)
+                .AsSelf()
+                .As<IReportService>()
+                .SingleInstance();
+
+            builder.RegisterInstance(NullStatisticsService.Instance)
+                .AsSelf()
+                .As<IStatisticsService>()
+                .SingleInstance();
+
+            builder.RegisterInstance(AuditingService.None)
                 .AsSelf()
                 .As<AuditingService>()
                 .SingleInstance();
